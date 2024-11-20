@@ -1,6 +1,6 @@
-plugins {
-    id 'com.jfrog.bintray' version '1.6'
-}
+// plugins {
+//     id 'com.jfrog.bintray' version '1.6'
+// }
 
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -76,18 +76,23 @@ publishing {
     }
 }
 
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_PASS')
-    publications = ['JarPublication']
-    publish = true
-    pkg {
-        repo = 'openregister'
-        name = 'verifiable-log'
-        userOrg = 'openregister'
-        licenses = 'MIT'
-        version {
-            name = versionNumber
-        }
-    }
+// bintray {
+//     user = System.getenv('BINTRAY_USER')
+//     key = System.getenv('BINTRAY_PASS')
+//     publications = ['JarPublication']
+//     publish = true
+//     pkg {
+//         repo = 'openregister'
+//         name = 'verifiable-log'
+//         userOrg = 'openregister'
+//         licenses = 'MIT'
+//         version {
+//             name = versionNumber
+//         }
+//     }
+// }
+task fatJar(type: Jar) {
+    classifier = 'all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
